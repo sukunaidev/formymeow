@@ -1,18 +1,49 @@
+'use client'
+import React from "react"
+import { format } from "date-fns"
+import { Calendar1Icon } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 export default function Page() {
+  const [date, setDate] = React.useState<Date>()
+
+  let redirect = () => {
+    console.log(date)
+    console.log(date?.toString().slice(0, 15))
+    if (date?.toString().slice(0, 15) === "Mon Jun 15 2026") {
+      console.log("Mow")
+    }
+
+  }
+
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
+    <div>
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <div className="text-2xl text-blue-500">Meow my Zemer</div>
+        <div className="text-blue-300">Please enter todays date. {"<3"}</div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              data-empty={!date}
+              className="w-[280px] justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
+            >
+              <Calendar1Icon />
+              {date ? format(date, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+
+              onDayClick={redirect}
+            />
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
   )
